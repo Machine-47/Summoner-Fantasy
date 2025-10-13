@@ -1,0 +1,208 @@
+/* -------------------------------------------------
+   Tailwind
+-------------------------------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------------------------------------
+   Fuentes (Google Fonts)
+   - TÍTULOS: Bebas Neue
+   - UI/TEXTO: Inter
+-------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* -------------------------------------------------
+   Variables de fuentes
+-------------------------------------------------- */
+:root {
+  --bebas: 'Bebas Neue', sans-serif;
+  --inter: 'Inter', sans-serif;
+}
+
+/* -------------------------------------------------
+   BASE (Inter por defecto)
+-------------------------------------------------- */
+@layer base {
+  html, body {
+    font-family: var(--inter);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Fondo con radiales */
+  body {
+    @apply bg-bg text-ink-100 min-h-screen;
+    background-image:
+      radial-gradient(60rem 30rem at 85% -10%, rgba(135,10,149,.18), transparent 60%),
+      radial-gradient(45rem 25rem at 15% -10%, rgba(242,32,59,.14), transparent 60%),
+      linear-gradient(#0b0b1a, #0b0b1a);
+  }
+
+  *::selection { background: rgba(135,10,149,.30); color: white; }
+}
+
+/* -------------------------------------------------
+   Tipografías (Bebas solo donde queremos)
+-------------------------------------------------- */
+/* Utilidad por si la quieres usar ad-hoc */
+.bebas {
+  font-family: var(--bebas) !important;
+  font-weight: 400 !important;
+  font-synthesis: none;
+  letter-spacing: .02em;
+}
+
+/* Lugares donde SIEMPRE va Bebas */
+/* === Donde SÍ queremos Bebas === */
+.app-logo,
+.page-title,
+.nav-link,
+.player-name,
+.role-badge {
+  font-family: var(--bebas) !important;
+  font-weight: 400 !important;
+  font-synthesis: none;
+}
+
+/* Ajustes de tracking y tamaño */
+.page-title {
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: clamp(2.8rem, 5vw, 3.6rem); /* más grande */
+  line-height: 1.1;
+  color: #fff;
+}
+
+.nav-link {
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+}
+
+/* Nombre de jugador: un poco más grande y contundente */
+.player-name {
+  letter-spacing: .02em !important;
+  text-transform: none;
+  font-size: 1.35rem; /* antes 1.25rem */
+  line-height: 1.15;
+  color: #fff;
+}
+
+/* Badge de rol: mantenemos tamaño compacto */
+.role-badge {
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-size: .8rem;
+}
+
+/* Evitamos que el nombre del jugador herede tracking abiertos */
+.player-name {
+  letter-spacing: .015em !important;
+  text-transform: none;
+}
+
+/* Cortar herencias de letter-spacing si hiciera falta */
+.notracking { letter-spacing: 0 !important; }
+
+/* -------------------------------------------------
+   COMPONENTES
+-------------------------------------------------- */
+
+/* Tarjetas glass */
+.card {
+  @apply bg-white/5 border border-white/10 rounded-2xl shadow-soft backdrop-blur-md transition-all duration-200;
+}
+.card:hover { @apply border-white/20 shadow-glow; }
+
+/* Chips */
+.chip { @apply inline-flex items-center rounded-lg px-2 py-0.5 text-xs border border-white/10 bg-white/5 font-medium; }
+
+/* Stats compactas */
+.stat-pill { @apply bg-white/5 rounded-lg p-1.5 text-center; }
+.stat-pill .label { @apply text-[10px] leading-3 text-ink-300; }
+.stat-pill .value { @apply text-[0.95rem] font-semibold leading-4; }
+
+/* -------------------------------------------------
+   BOTONES
+-------------------------------------------------- */
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-medium
+         transition border border-white/5 select-none;
+  font-family: var(--inter);
+  letter-spacing: 0.02em;
+}
+.btn-ghost { @apply bg-white/5 hover:bg-white/10; }
+
+/* Principal (gradiente rojo→morado) */
+.btn-brand {
+  @apply text-white font-semibold rounded-xl px-4 py-2.5 shadow-glow transition-transform duration-150;
+  background: linear-gradient(90deg, #f2203b 0%, #870a95 100%);
+  box-shadow: 0 0 16px rgba(135,10,149,0.25);
+}
+.btn-brand:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+/* -------------------------------------------------
+   FORM CONTROLS
+-------------------------------------------------- */
+.input, .select {
+  @apply bg-white/5 border border-white/10 rounded-2xl px-3 py-2 text-sm text-white outline-none transition;
+  color-scheme: dark;
+}
+.input:focus, .select:focus {
+  @apply border-brand-purple ring-2 ring-[rgba(135,10,149,0.3)];
+}
+
+/* Popup de opciones (fondo oscuro y texto claro) */
+.select option,
+.select optgroup {
+  background-color: rgba(17,17,30,.96) !important;
+  color: #fff !important;
+}
+
+/* Number inputs en dark */
+input[type='number'] { color-scheme: dark; }
+
+/* -------------------------------------------------
+   SLIDER / RANGE
+-------------------------------------------------- */
+.range {
+  appearance: none;
+  height: 10px;
+  border-radius: 999px;
+  outline: none;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.05);
+  transition: background .2s;
+}
+.range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px; height: 18px; border-radius: 999px; cursor: pointer;
+  background: linear-gradient(90deg, #f2203b 0%, #870a95 100%);
+  box-shadow: 0 0 0 2px rgba(135,10,149,.35);
+}
+.range::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 999px; border: 0; cursor: pointer;
+  background: linear-gradient(90deg, #f2203b 0%, #870a95 100%);
+}
+
+/* -------------------------------------------------
+   SOMBRAS / EFECTOS
+-------------------------------------------------- */
+.shadow-soft { box-shadow: 0 8px 30px rgba(0,0,0,.4); }
+.shadow-glow {
+  box-shadow:
+    0 0 0 2px rgba(135,10,149,.22),
+    0 12px 40px rgba(135,10,149,.18);
+}
+
+/* -------------------------------------------------
+   ANIMACIONES
+-------------------------------------------------- */
+@keyframes fade-up { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
+.animate-fade-up { animation: fade-up .3s ease forwards; }
+
+@keyframes pulse-soft { 0%,100% { opacity: .9; } 50% { opacity: 1; } }
+.animate-pulse-soft { animation: pulse-soft 2.4s ease-in-out infinite; }
