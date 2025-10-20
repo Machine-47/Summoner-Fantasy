@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { PlayersStore } from './players.store';
 import { SearchBarComponent } from '../../shared/search-bar/search-bar.component';
 import { RoleBadgeComponent } from '../../shared/role-badge/role-badge.component';
-import { MyTeamStore } from '../my-team/my-team.store';
 import { Player } from '../../core/services/api.service';
 
 @Component({
@@ -22,16 +21,7 @@ import { Player } from '../../core/services/api.service';
           <h1 class="page-title bebas">Jugadores</h1>
           <p class="subtle">Filtra por rol, equipo o coste y ficha a tus favoritos.</p>
         </div>
-
-        <div class="hidden sm:flex items-center gap-2">
-          <span class="chip bg-white/5">
-            Presupuesto:
-            <span class="ml-1 font-semibold" style="color:#A54CFF">
-              {{ teamStore.team()?.budget ?? 0 }}
-            </span>
-          </span>
-          <a routerLink="/my-team" class="btn btn-brand">Mi equipo</a>
-        </div>
+        <!-- (Se eliminan presupuesto y enlace a Mi equipo) -->
       </div>
 
       <!-- Filtros (sticky) -->
@@ -135,14 +125,11 @@ import { Player } from '../../core/services/api.service';
             </div>
 
             <div class="ml-auto flex flex-col items-end gap-2">
+              <!-- Mostramos coste como chip (se mantiene el estilo) -->
               <span class="chip" style="border-color:rgba(255,122,61,.30); background:rgba(255,122,61,.10)">
                 {{ p.cost }}
               </span>
-              <button class="btn btn-brand"
-                      (click)="onBuy(p)"
-                      [disabled]="!canAfford(p.cost)">
-                Comprar
-              </button>
+              <!-- (El botón Comprar se elimina) -->
             </div>
           </div>
 
@@ -172,13 +159,7 @@ import { Player } from '../../core/services/api.service';
         No hay resultados para esos filtros.
       </div>
 
-      <!-- Presupuesto móvil -->
-      <div class="sm:hidden">
-        <div class="chip bg-white/5">
-          Presupuesto:
-          <span class="ml-1 font-semibold" style="color:#A54CFF">{{ teamStore.team()?.budget ?? 0 }}</span>
-        </div>
-      </div>
+      <!-- (Se elimina el bloque de presupuesto móvil) -->
 
     </section>
   `
@@ -186,11 +167,9 @@ import { Player } from '../../core/services/api.service';
 export class PlayersPage implements OnInit {
   store = inject(PlayersStore);
   private route = inject(ActivatedRoute);
-  teamStore = inject(MyTeamStore);
 
   ngOnInit() {
     this.store.load();
-    this.teamStore.load(); // ⚠️ imprescindible para que “Comprar” funcione
 
     this.route.queryParamMap.subscribe(q => {
       const team = q.get('team');
@@ -199,21 +178,6 @@ export class PlayersPage implements OnInit {
   }
 
   trackById = (_: number, p: Player) => p.id;
-
-  canAfford(cost: number) {
-    const budget = this.teamStore.team()?.budget ?? 0;
-    return budget >= cost;
-  }
-
-  onBuy(p: Player) {
-    const team = this.teamStore.team();
-    if (!team) { this.teamStore.load(); return; }
-
-    const slot = team.slots.find(s => s.role === p.role && !s.playerId);
-    if (!slot) { alert(`No tienes hueco libre en ${p.role}`); return; }
-
-    this.teamStore.buy(slot.id, p.id);
-  }
 
   // --- Sliders robustos (no se cruzan) + fondo relleno
   onMinCostChange(val: number) {
@@ -225,12 +189,12 @@ export class PlayersPage implements OnInit {
     this.store.costMaxSel.set(v);
   }
   rangeBg(min: number, max: number, val: number) {
-  // morado #870a95 -> rgb(135,10,149)
-  const pct = (val - min) * 100 / Math.max(1, (max - min));
-  return `linear-gradient(to right,
-            rgba(135,10,149,.35) 0%,
-            rgba(135,10,149,.35) ${pct}%,
-            rgba(255,255,255,.08) ${pct}%,
-            rgba(255,255,255,.08) 100%)`;
-}
+    // morado #870a95 -> rgb(135,10,149)
+    const pct = (val - min) * 100 / Math.max(1, (max - min));
+    return `linear-gradient(to right,
+              rgba(135,10,149,.35) 0%,
+              rgba(135,10,149,.35) ${pct}%,
+              rgba(255,255,255,.08) ${pct}%,
+              rgba(255,255,255,.08) 100%)`;
+  }
 }

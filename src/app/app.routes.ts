@@ -6,6 +6,7 @@ export const APP_ROUTES: Routes = [
 { path: 'players', loadComponent: () => import('./features/players/players.page').then(m => m.PlayersPage) },
 { path: 'players/:id', loadComponent: () => import('./features/players/player-detail.component').then(m => m.PlayerDetailComponent) },
 { path: 'teams', loadComponent: () => import('./features/teams/teams.page').then(m => m.TeamsPage) },
+{ path: 'teams/:slug', loadComponent: () => import('./features/teams/team-detail.page').then(m => m.TeamDetailPage) },
 { path: 'schedule', loadComponent: () => import('./features/schedule/schedule.page').then(m => m.SchedulePage) },
 { path: 'leagues', loadComponent: () => import('./features/leagues/leagues.page').then(m => m.LeaguesPage) },
 { path: 'leagues/:slug', loadComponent: () => import('./features/leagues/league-detail.page').then(m => m.LeagueDetailPage) },
@@ -14,5 +15,6 @@ export const APP_ROUTES: Routes = [
 { path: 'my-team', canActivate: [authGuard], loadComponent: () => import('./features/my-team/my-team.page').then(m => m.MyTeamPage) },
 { path: 'login', loadComponent: () => import('./features/auth/login.page').then(m => m.LoginPage) },
 { path: 'register', loadComponent: () => import('./features/auth/register.page').then(m => m.RegisterPage) },
+{ path: 'leagues/:slug/draft', loadComponent: () => import('./features/leagues/league-draft.page').then(m => m.LeagueDraftPage) },
 { path: '**', redirectTo: '' }
 ];
