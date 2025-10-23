@@ -9,7 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
   selector: 'app-login-page',
   imports: [ReactiveFormsModule, RouterLink, NgIf],
   template: `
-<div class="min-h-[100dvh] bg-[#0b0b0f] relative overflow-hidden">
+<div class="min-h-screen relative overflow-hidden">
   <!-- Fondos -->
   <div class="pointer-events-none absolute inset-0">
     <div class="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] rounded-full blur-3xl opacity-30"

@@ -9,7 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
   selector: 'app-register-page',
   imports: [ReactiveFormsModule, RouterLink, NgIf],
   template: `
-<div class="min-h-[100dvh] bg-[#0b0b0f] relative overflow-hidden">
+<div class="min-h-screen relative overflow-hidden">
   <div class="pointer-events-none absolute inset-0">
     <div class="absolute -top-1/4 left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] rounded-full blur-3xl opacity-30"
          style="background: radial-gradient(50% 50% at 50% 50%, #8b1fa8 0%, rgba(139,31,168,0.3) 40%, transparent 70%);"></div>
