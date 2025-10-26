@@ -1,20 +1,17 @@
-import { HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-import { catchError, switchMap, throwError } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const auth = inject(AuthService);
-  const withCreds = req.clone({ withCredentials: true });
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const withCreds = req.clone({ withCredentials: true });
 
-  return next(withCreds).pipe(
-    catchError(err => {
-      if (err.status === 401 && !req.url.endsWith('/auth/refresh')) {
-        return auth.refresh().pipe(
-          switchMap(() => next(withCreds))
-        );
-      }
-      return throwError(() => err);
-    })
-  );
-};
+    const token = localStorage.getItem('sf_token');
+    const authReq = token
+      ? withCreds.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
+      : withCreds;
+
+    return next.handle(authReq);
+  }
+}
